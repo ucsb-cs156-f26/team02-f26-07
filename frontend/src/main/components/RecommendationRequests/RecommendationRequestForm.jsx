@@ -108,7 +108,7 @@ function RecommendationRequestForm({
           Date Requested (iso format)
         </Form.Label>
         <Form.Control
-          data-testid={testIdPrefix + "-dateRequested"}
+          //data-testid={testIdPrefix + "-dateRequested"}
           id="dateRequested"
           type="datetime-local"
           isInvalid={Boolean(errors.dateRequested)}
@@ -125,7 +125,7 @@ function RecommendationRequestForm({
       <Form.Group className="mb-3">
         <Form.Label htmlFor="dateNeeded">Date Needed (iso format)</Form.Label>
         <Form.Control
-          data-testid={testIdPrefix + "-dateNeeded"}
+          //data-testid={testIdPrefix + "-dateNeeded"}
           id="dateNeeded"
           type="datetime-local"
           isInvalid={Boolean(errors.dateNeeded)}
@@ -142,7 +142,7 @@ function RecommendationRequestForm({
       <Form.Group className="mb-3">
         <Form.Label htmlFor="done">Done</Form.Label>
         <Form.Check
-          data-testid={testIdPrefix + "-done"}
+          //data-testid={testIdPrefix + "-done"}
           type="checkbox"
           id="done"
           // "done" is not required, otherwise submit would
@@ -155,7 +155,10 @@ function RecommendationRequestForm({
         </Form.Control.Feedback>
       </Form.Group>
 
-      <Button type="submit" data-testid={testIdPrefix + "-submit"}>
+      <Button
+        type="submit"
+        //data-testid={testIdPrefix + "-submit"}
+      >
         {buttonLabel}
       </Button>
       <Button
