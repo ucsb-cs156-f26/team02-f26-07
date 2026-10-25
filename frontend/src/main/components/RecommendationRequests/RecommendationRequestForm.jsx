@@ -72,6 +72,10 @@ function RecommendationRequestForm({
           isInvalid={Boolean(errors.professorEmail)}
           {...register("professorEmail", {
             required: "Professor Email is required.",
+            maxLength: {
+              value: 255,
+              message: "Max length 255 characters",
+            },
           })}
         />
         <Form.Control.Feedback type="invalid">
@@ -88,6 +92,10 @@ function RecommendationRequestForm({
           isInvalid={Boolean(errors.explanation)}
           {...register("explanation", {
             required: "Explanation is required.",
+            maxLength: {
+              value: 255,
+              message: "Max length 255 characters",
+            },
           })}
         />
         <Form.Control.Feedback type="invalid">
