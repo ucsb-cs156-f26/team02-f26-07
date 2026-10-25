@@ -6,7 +6,7 @@ const recommendationRequestFixtures = {
     explanation: "BS/MS program",
     dateRequested: "2026-09-30T13:37:10",
     dateNeeded: "2026-10-31T23:59:00",
-    done: true
+    done: true,
   },
   threeRecommendationRequests: [
     {
@@ -16,7 +16,7 @@ const recommendationRequestFixtures = {
       explanation: "MS program at Stanford",
       dateRequested: "2026-01-01T09:30:57",
       dateNeeded: "2026-03-15T23:59:00",
-      done: true
+      done: true,
     },
     {
       id: 2,
@@ -25,7 +25,7 @@ const recommendationRequestFixtures = {
       explanation: "PhD program at CMU",
       dateRequested: "2026-02-04T15:15:36",
       dateNeeded: "2026-06-01T23:59:00",
-      done: true
+      done: true,
     },
     {
       id: 3,
@@ -34,7 +34,7 @@ const recommendationRequestFixtures = {
       explanation: "Internship recommendation letter",
       dateRequested: "2026-10-19T10:49:14",
       dateNeeded: "2027-01-15T23:59:00",
-      done: false
+      done: false,
     },
   ],
 };
