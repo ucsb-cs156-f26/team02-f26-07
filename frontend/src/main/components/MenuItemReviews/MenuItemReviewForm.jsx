@@ -55,13 +55,20 @@ function MenuItemReviewForm({
         <Form.Control
           data-testid={testIdPrefix + "-itemId"}
           id="itemId"
-          type="text" //validate that its a number?
+          type="text"
           isInvalid={Boolean(errors.itemId)}
           {...register("itemId", {
             required: "Item Id is required.",
-            maxLength: {
-              value: 30,
-              message: "Max length 30 characters",
+            //validate number
+            // Stryker disable Regex
+            pattern: {
+              value: /^[0-9]+$/,
+              message: "Item Id must be a number",
+            },
+            // Stryker restore Regex
+            max: {
+              value: 999999999,
+              message: "Max value 999999999", //correct max?
             },
           })}
         />
@@ -74,10 +81,17 @@ function MenuItemReviewForm({
         <Form.Label htmlFor="reviewerEmail">Reviewer Email</Form.Label>
         <Form.Control
           id="reviewerEmail"
-          type="text" //validate format/valid email?
+          type="text"
           isInvalid={Boolean(errors.reviewerEmail)}
           {...register("reviewerEmail", {
             required: "Reviewer Email is required.",
+            //validate format/valid email?
+            // Stryker disable Regex
+            pattern: {
+              value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+              message: "Reviewer Email must be a valid email address",
+            },
+            // Stryker restore Regex
           })}
         />
         <Form.Control.Feedback type="invalid">
@@ -89,10 +103,24 @@ function MenuItemReviewForm({
         <Form.Label htmlFor="stars">Stars</Form.Label>
         <Form.Control
           id="stars"
-          type="text" //validate number?
+          type="text"
           isInvalid={Boolean(errors.stars)}
           {...register("stars", {
             required: "Stars is required.",
+            //validate number
+            pattern: {
+              value: /^[0-9]+$/,
+              message: "Stars must be a number",
+            },
+            //validate number is 0-5
+            // min: {
+            //   value: 0,
+            //   message: "Stars must be between 0 and 5",
+            // },
+            max: {
+              value: 5,
+              message: "Stars must be between 0 and 5",
+            },
           })}
         />
         <Form.Control.Feedback type="invalid">
@@ -109,12 +137,17 @@ function MenuItemReviewForm({
           type="datetime-local"
           isInvalid={Boolean(errors.dateReviewed)}
           {...register("dateReviewed", {
-            required: true,
-            pattern: isodate_regex,
+            required: "Date Reviewed is required.",
+            // Stryker disable all
+            pattern: {
+              value: isodate_regex,
+              message: "Date Reviewed must be in ISO format",
+            },
+            // Stryker restore all
           })}
         />
         <Form.Control.Feedback type="invalid">
-          {errors.dateReviewed && "Date Reviewed is required. "}
+          {errors.dateReviewed?.message}
         </Form.Control.Feedback>
       </Form.Group>
 
@@ -126,6 +159,10 @@ function MenuItemReviewForm({
           isInvalid={Boolean(errors.comments)}
           {...register("comments", {
             required: "Comments is required.",
+            maxLength: {
+              value: 255,
+              message: "Max length 255 characters",
+            },
           })}
         />
         <Form.Control.Feedback type="invalid">

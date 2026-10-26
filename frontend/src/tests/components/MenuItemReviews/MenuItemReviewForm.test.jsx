@@ -111,11 +111,56 @@ describe("MenuItemReviewForm tests", () => {
     expect(screen.getByText(/Comments is required/)).toBeInTheDocument();
 
     const itemIdInput = screen.getByTestId(`${testId}-itemId`);
-    fireEvent.change(itemIdInput, { target: { value: "a".repeat(31) } });
-    fireEvent.click(submitButton);
 
+    // pattern rule: non-digits
+    fireEvent.change(itemIdInput, { target: { value: "abc" } });
+    fireEvent.click(submitButton);
     await waitFor(() => {
-      expect(screen.getByText(/Max length 30 characters/)).toBeInTheDocument();
+      expect(screen.getByText(/Item Id must be a number/)).toBeInTheDocument();
+    });
+
+    // max rule: digits, but too large
+    fireEvent.change(itemIdInput, { target: { value: "1000000000" } });
+    fireEvent.click(submitButton);
+    await waitFor(() => {
+      expect(screen.getByText(/Max value 999999999/)).toBeInTheDocument();
+    });
+
+    // reviewer email pattern
+    fireEvent.change(screen.getByLabelText("Reviewer Email"), {
+      target: { value: "not-an-email" },
+    });
+    fireEvent.click(submitButton);
+    await waitFor(() => {
+      expect(
+        screen.getByText(/Reviewer Email must be a valid email address/),
+      ).toBeInTheDocument();
+    });
+
+    // stars pattern
+    const starsInput = screen.getByLabelText("Stars");
+    fireEvent.change(starsInput, { target: { value: "abc" } });
+    fireEvent.click(submitButton);
+    await waitFor(() => {
+      expect(screen.getByText(/Stars must be a number/)).toBeInTheDocument();
+    });
+
+    // stars max
+    fireEvent.change(starsInput, { target: { value: "6" } });
+    fireEvent.click(submitButton);
+    await waitFor(() => {
+      expect(
+        screen.getByText(/Stars must be between 0 and 5/),
+      ).toBeInTheDocument();
+    });
+
+    // comments max length
+    fireEvent.change(screen.getByLabelText("Comments"), {
+      target: { value: "a".repeat(256) },
+    });
+    fireEvent.click(submitButton);
+    await waitFor(() => {
+      expect(screen.getByText(/Max length 255 characters/)).toBeInTheDocument();
     });
   });
 });
