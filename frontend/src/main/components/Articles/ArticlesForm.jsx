@@ -22,8 +22,6 @@ function ArticlesForm({
   // Stryker disable Regex
   const url_regex = /^https?:\/\/\S+\.\S+$/i;
   const email_regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  const isodate_regex =
-    /(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d\.\d+)|(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d)|(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d)/i;
   // Stryker restore Regex
 
   return (
@@ -130,10 +128,6 @@ function ArticlesForm({
           isInvalid={Boolean(errors.dateAdded)}
           {...register("dateAdded", {
             required: "Select a date and time.",
-            pattern: {
-              value: isodate_regex,
-              message: "Invalid date format.",
-            },
           })}
         />
         <Form.Control.Feedback type="invalid">
