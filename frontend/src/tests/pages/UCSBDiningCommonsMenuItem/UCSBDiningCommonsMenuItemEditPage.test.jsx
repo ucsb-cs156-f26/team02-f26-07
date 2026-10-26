@@ -78,6 +78,12 @@ describe("UCSBDiningCommonsMenuItemEditPage tests", () => {
     expect(
       screen.queryByTestId("UCSBDiningCommonsMenuItemForm-name"),
     ).not.toBeInTheDocument();
+    expect(console.error).toHaveBeenCalledWith(
+      expect.stringContaining(
+        "Error communicating with backend via GET on /api/ucsbdiningcommonsmenuitems",
+      ),
+      expect.anything(),
+    );
     restoreConsole();
   });
 
