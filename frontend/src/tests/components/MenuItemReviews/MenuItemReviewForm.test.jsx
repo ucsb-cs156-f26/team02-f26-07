@@ -68,7 +68,9 @@ describe("MenuItemReviewForm tests", () => {
     const review = menuItemReviewFixtures.oneReview;
     expect(screen.getByTestId(`${testId}-id`)).toHaveValue(String(review.id));
     expect(screen.getByLabelText("Item Id")).toHaveValue(String(review.itemId));
-    expect(screen.getByLabelText("Reviewer Email")).toHaveValue(review.reviewerEmail);
+    expect(screen.getByLabelText("Reviewer Email")).toHaveValue(
+      review.reviewerEmail,
+    );
     expect(screen.getByLabelText("Stars")).toHaveValue(String(review.stars));
     expect(screen.getByLabelText("Comments")).toHaveValue(review.comments);
   });
