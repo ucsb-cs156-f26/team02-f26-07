@@ -69,7 +69,9 @@ function HelpRequestForm({
         </Col>
         <Col>
           <Form.Group className="mb-3">
-            <Form.Label htmlFor="requestTime">Request Time (iso format)</Form.Label>
+            <Form.Label htmlFor="requestTime">
+              Request Time (iso format)
+            </Form.Label>
             <Form.Control
               data-testid="HelpRequestForm-requestTime"
               id="requestTime"
@@ -107,7 +109,9 @@ function HelpRequestForm({
         </Col>
         <Col>
           <Form.Group className="mb-3">
-            <Form.Label htmlFor="tableOrBreakoutRoom">Table or Breakout Room</Form.Label>
+            <Form.Label htmlFor="tableOrBreakoutRoom">
+              Table or Breakout Room
+            </Form.Label>
             <Form.Control
               data-testid="HelpRequestForm-tableOrBreakoutRoom"
               id="tableOrBreakoutRoom"

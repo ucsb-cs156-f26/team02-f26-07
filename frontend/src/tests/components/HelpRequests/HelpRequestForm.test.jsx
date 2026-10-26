@@ -28,9 +28,7 @@ describe("HelpRequestForm tests", () => {
   test("renders correctly when passing in a HelpRequest", async () => {
     render(
       <Router>
-        <HelpRequestForm
-          initialContents={helpRequestFixtures.oneHelpRequest}
-        />
+        <HelpRequestForm initialContents={helpRequestFixtures.oneHelpRequest} />
       </Router>,
     );
     await screen.findByTestId(/HelpRequestForm-id/);
