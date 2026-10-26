@@ -8,6 +8,7 @@ import axios from "axios";
 import AxiosMockAdapter from "axios-mock-adapter";
 
 const mockedNavigate = vi.fn();
+let axiosMock;
 vi.mock("react-router", async () => {
   const originalModule = await vi.importActual("react-router");
   return {
@@ -18,88 +19,185 @@ vi.mock("react-router", async () => {
 
 describe("UCSBDiningCommonsMenuItemTable tests", () => {
   const queryClient = new QueryClient();
+
   const expectedHeaders = ["id", "Dining Commons Code", "Name", "Station"];
   const expectedFields = ["id", "diningCommonsCode", "name", "station"];
   const testId = "UCSBDiningCommonsMenuItemTable";
 
-  const renderTable = (currentUser, items = []) =>
+  afterEach(() => {
+    axiosMock?.restore();
+    axiosMock = undefined;
+    mockedNavigate.mockReset();
+  });
+
+  test("renders empty table correctly", () => {
+    // arrange
+    const currentUser = currentUserFixtures.adminUser;
+
+    // act
     render(
       <QueryClientProvider client={queryClient}>
         <MemoryRouter>
           <UCSBDiningCommonsMenuItemTable
-            ucsbDiningCommonsMenuItems={items}
+            ucsbDiningCommonsMenuItems={[]}
             currentUser={currentUser}
           />
         </MemoryRouter>
       </QueryClientProvider>,
     );
 
-  test("renders empty table correctly", () => {
-    renderTable(currentUserFixtures.adminUser);
-
+    // assert
     expectedHeaders.forEach((headerText) => {
-      expect(screen.getByText(headerText)).toBeInTheDocument();
+      const header = screen.getByText(headerText);
+      expect(header).toBeInTheDocument();
     });
 
     expectedFields.forEach((field) => {
-      expect(
-        screen.queryByTestId(`${testId}-cell-row-0-col-${field}`),
-      ).not.toBeInTheDocument();
+      const fieldElement = screen.queryByTestId(
+        `${testId}-cell-row-0-col-${field}`,
+      );
+      expect(fieldElement).not.toBeInTheDocument();
     });
   });
 
-  test("renders menu item data and admin actions", () => {
-    renderTable(
-      currentUserFixtures.adminUser,
-      ucsbDiningCommonsMenuItemFixtures.threeDiningCommonsMenuItem,
+  test("Has the expected column headers, content and buttons for admin user", () => {
+    // arrange
+    const currentUser = currentUserFixtures.adminUser;
+
+    // act
+    render(
+      <QueryClientProvider client={queryClient}>
+        <MemoryRouter>
+          <UCSBDiningCommonsMenuItemTable
+            ucsbDiningCommonsMenuItems={
+              ucsbDiningCommonsMenuItemFixtures.threeDiningCommonsMenuItem
+            }
+            currentUser={currentUser}
+          />
+        </MemoryRouter>
+      </QueryClientProvider>,
     );
 
-    expectedFields.forEach((field) => {
-      expect(
-        screen.getByTestId(`${testId}-cell-row-0-col-${field}`),
-      ).toBeInTheDocument();
+    // assert
+    expectedHeaders.forEach((headerText) => {
+      const header = screen.getByText(headerText);
+      expect(header).toBeInTheDocument();
     });
+
+    expectedFields.forEach((field) => {
+      const header = screen.getByTestId(`${testId}-cell-row-0-col-${field}`);
+      expect(header).toBeInTheDocument();
+    });
+
     expect(screen.getByTestId(`${testId}-cell-row-0-col-id`)).toHaveTextContent(
       "1",
     );
     expect(
-      screen.getByTestId(`${testId}-cell-row-0-col-diningCommonsCode`),
-    ).toHaveTextContent("carillo");
+      screen.getByTestId(`${testId}-cell-row-0-col-name`),
+    ).toHaveTextContent("burger");
+
+    expect(screen.getByTestId(`${testId}-cell-row-1-col-id`)).toHaveTextContent(
+      "2",
+    );
     expect(
       screen.getByTestId(`${testId}-cell-row-1-col-name`),
     ).toHaveTextContent("pizza");
-    expect(
-      screen.getByTestId(`${testId}-cell-row-0-col-Edit-button`),
-    ).toHaveClass("btn-primary");
-    expect(
-      screen.getByTestId(`${testId}-cell-row-0-col-Delete-button`),
-    ).toHaveClass("btn-danger");
+
+    const editButton = screen.getByTestId(
+      `${testId}-cell-row-0-col-Edit-button`,
+    );
+    expect(editButton).toBeInTheDocument();
+    expect(editButton).toHaveClass("btn-primary");
+
+    const deleteButton = screen.getByTestId(
+      `${testId}-cell-row-0-col-Delete-button`,
+    );
+    expect(deleteButton).toBeInTheDocument();
+    expect(deleteButton).toHaveClass("btn-danger");
   });
 
-  test("hides admin actions for ordinary users", () => {
-    renderTable(
-      currentUserFixtures.userOnly,
-      ucsbDiningCommonsMenuItemFixtures.threeDiningCommonsMenuItem,
+  test("Has the expected column headers, content for ordinary user", () => {
+    // arrange
+    const currentUser = currentUserFixtures.userOnly;
+
+    // act
+    render(
+      <QueryClientProvider client={queryClient}>
+        <MemoryRouter>
+          <UCSBDiningCommonsMenuItemTable
+            ucsbDiningCommonsMenuItems={
+              ucsbDiningCommonsMenuItemFixtures.threeDiningCommonsMenuItem
+            }
+            currentUser={currentUser}
+          />
+        </MemoryRouter>
+      </QueryClientProvider>,
     );
 
+    // assert
     expectedHeaders.forEach((headerText) => {
-      expect(screen.getByText(headerText)).toBeInTheDocument();
+      const header = screen.getByText(headerText);
+      expect(header).toBeInTheDocument();
     });
+
+    expectedFields.forEach((field) => {
+      const header = screen.getByTestId(`${testId}-cell-row-0-col-${field}`);
+      expect(header).toBeInTheDocument();
+    });
+
+    expect(screen.getByTestId(`${testId}-cell-row-0-col-id`)).toHaveTextContent(
+      "1",
+    );
     expect(
       screen.getByTestId(`${testId}-cell-row-0-col-name`),
     ).toHaveTextContent("burger");
+
+    expect(screen.getByTestId(`${testId}-cell-row-1-col-id`)).toHaveTextContent(
+      "2",
+    );
+    expect(
+      screen.getByTestId(`${testId}-cell-row-1-col-name`),
+    ).toHaveTextContent("pizza");
+
     expect(screen.queryByText("Delete")).not.toBeInTheDocument();
     expect(screen.queryByText("Edit")).not.toBeInTheDocument();
   });
 
   test("Edit button navigates to the edit page", async () => {
-    renderTable(
-      currentUserFixtures.adminUser,
-      ucsbDiningCommonsMenuItemFixtures.threeDiningCommonsMenuItem,
+    // arrange
+    const currentUser = currentUserFixtures.adminUser;
+
+    // act - render the component
+    render(
+      <QueryClientProvider client={queryClient}>
+        <MemoryRouter>
+          <UCSBDiningCommonsMenuItemTable
+            ucsbDiningCommonsMenuItems={
+              ucsbDiningCommonsMenuItemFixtures.threeDiningCommonsMenuItem
+            }
+            currentUser={currentUser}
+          />
+        </MemoryRouter>
+      </QueryClientProvider>,
     );
 
-    fireEvent.click(screen.getByTestId(`${testId}-cell-row-0-col-Edit-button`));
+    // assert - check that the expected content is rendered
+    expect(
+      await screen.findByTestId(`${testId}-cell-row-0-col-id`),
+    ).toHaveTextContent("1");
+    expect(
+      screen.getByTestId(`${testId}-cell-row-0-col-name`),
+    ).toHaveTextContent("burger");
 
+    const editButton = screen.getByTestId(
+      `${testId}-cell-row-0-col-Edit-button`,
+    );
+    expect(editButton).toBeInTheDocument();
+
+    // act - click the edit button
+    fireEvent.click(editButton);
+
+    // assert - check that the navigate function was called with the expected path
     await waitFor(() =>
       expect(mockedNavigate).toHaveBeenCalledWith(
         "/ucsbdiningcommonsmenuitems/edit/1",
@@ -107,26 +205,51 @@ describe("UCSBDiningCommonsMenuItemTable tests", () => {
     );
   });
 
-  test("Delete button calls delete endpoint with the selected item id", async () => {
-    const axiosMock = new AxiosMockAdapter(axios);
+  test("Delete button calls delete callback", async () => {
+    // arrange
+    const currentUser = currentUserFixtures.adminUser;
+
+    axiosMock = new AxiosMockAdapter(axios);
     axiosMock
       .onDelete("/api/ucsbdiningcommonsmenuitems")
-      .reply(200, { message: "Menu item deleted" });
+      .reply(200, { message: "UCSBDiningCommonsMenuItem deleted" });
 
-    renderTable(
-      currentUserFixtures.adminUser,
-      ucsbDiningCommonsMenuItemFixtures.threeDiningCommonsMenuItem,
+    // act - render the component
+    render(
+      <QueryClientProvider client={queryClient}>
+        <MemoryRouter>
+          <UCSBDiningCommonsMenuItemTable
+            ucsbDiningCommonsMenuItems={
+              ucsbDiningCommonsMenuItemFixtures.threeDiningCommonsMenuItem
+            }
+            currentUser={currentUser}
+          />
+        </MemoryRouter>
+      </QueryClientProvider>,
     );
 
-    fireEvent.click(
-      screen.getByTestId(`${testId}-cell-row-0-col-Delete-button`),
+    // assert - check that the expected content is rendered
+    expect(
+      await screen.findByTestId(`${testId}-cell-row-0-col-id`),
+    ).toHaveTextContent("1");
+    expect(
+      screen.getByTestId(`${testId}-cell-row-0-col-name`),
+    ).toHaveTextContent("burger");
+
+    const deleteButton = screen.getByTestId(
+      `${testId}-cell-row-0-col-Delete-button`,
     );
+    expect(deleteButton).toBeInTheDocument();
+
+    // act - click the delete button
+    fireEvent.click(deleteButton);
+
+    // assert - check that the delete endpoint was called
 
     await waitFor(() => expect(axiosMock.history.delete.length).toBe(1));
     expect(axiosMock.history.delete[0].url).toBe(
       "/api/ucsbdiningcommonsmenuitems",
     );
     expect(axiosMock.history.delete[0].params).toEqual({ id: 1 });
-    axiosMock.restore();
   });
 });
