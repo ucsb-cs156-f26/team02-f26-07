@@ -88,7 +88,9 @@ describe("UCSBDiningCommonsMenuItemForm tests", () => {
     );
 
     expect(await screen.findByText(/Create/)).toBeInTheDocument();
-    const submitButton = screen.getByText(/Create/);
+    expect(screen.getByTestId(`${testId}-name`)).toBeInTheDocument();
+    expect(screen.getByTestId(`${testId}-station`)).toBeInTheDocument();
+    const submitButton = screen.getByTestId(`${testId}-submit`);
     fireEvent.click(submitButton);
 
     await screen.findByText(/diningCommonsCode is required/);
