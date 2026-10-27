@@ -5,7 +5,6 @@ import { useBackendMutation } from "main/utils/useBackend";
 import { toast } from "react-toastify";
 
 export default function MenuItemReviewsCreatePage({ storybook = false }) {
-  
   const addZ = (string) => `${string}Z`;
 
   const objectToAxiosParams = (menuItemReview) => ({
