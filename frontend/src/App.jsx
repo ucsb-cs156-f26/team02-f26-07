@@ -23,9 +23,6 @@ import MenuItemReviewsIndexPage from "main/pages/MenuItemReviews/MenuItemReviews
 import MenuItemReviewsCreatePage from "main/pages/MenuItemReviews/MenuItemReviewsCreatePage";
 import MenuItemReviewsEditPage from "main/pages/MenuItemReviews/MenuItemReviewsEditPage";
 
-import PlaceholderIndexPage from "main/pages/Placeholder/PlaceholderIndexPage";
-import PlaceholderCreatePage from "main/pages/Placeholder/PlaceholderCreatePage";
-import PlaceholderEditPage from "main/pages/Placeholder/PlaceholderEditPage";
 import UCSBDatesIndexPage from "main/pages/UCSBDates/UCSBDatesIndexPage";
 import UCSBDatesCreatePage from "main/pages/UCSBDates/UCSBDatesCreatePage";
 import UCSBDatesEditPage from "main/pages/UCSBDates/UCSBDatesEditPage";
