@@ -60,7 +60,9 @@ describe("ArticlesIndexPage tests", () => {
     expect(button).toBeInTheDocument();
     expect(button).toHaveAttribute("href", "/articles/create");
     expect(button).toHaveAttribute("style", "float: right;");
-    expect(screen.getByRole("heading", { name: "Articles" })).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: "Articles" }),
+    ).toBeInTheDocument();
   });
 
   test("renders three articles correctly for regular user", async () => {
