@@ -210,10 +210,10 @@ describe("ArticlesCreatePage tests", () => {
     fireEvent.click(screen.getByTestId("ArticlesForm-submit"));
 
     await waitFor(() => {
-      expect(screen.getByText("Enter valid URL.")).toBeInTheDocument();
+      expect(screen.getByText("Please enter a valid URL.")).toBeInTheDocument();
     });
 
-    expect(screen.getByText("Email format invalid.")).toBeInTheDocument();
+    expect(screen.getByText("Invalid email format.")).toBeInTheDocument();
 
     expect(axiosMock.history.post.length).toBe(0);
     expect(mockNavigate).not.toHaveBeenCalled();

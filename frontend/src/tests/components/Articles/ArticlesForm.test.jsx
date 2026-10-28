@@ -139,8 +139,8 @@ describe("ArticlesForm tests", () => {
 
     fireEvent.click(screen.getByTestId(`${testId}-submit`));
 
-    await screen.findByText(/Enter valid URL/);
-    expect(screen.getByText(/Email format invalid/)).toBeInTheDocument();
+    await screen.findByText(/Please enter a valid URL/);
+    expect(screen.getByText(/Invalid email format/)).toBeInTheDocument();
     expect(screen.getByText(/Title cannot be empty/)).toBeInTheDocument();
     expect(screen.getByText(/Explanation cannot be blank/)).toBeInTheDocument();
   });

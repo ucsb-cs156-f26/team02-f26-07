@@ -50,7 +50,7 @@ function ArticlesForm({
             required: "URL is required.",
             pattern: {
               value: url_regex,
-              message: "Enter valid URL.",
+              message: "Please enter a valid URL.",
             },
           })}
         />
@@ -90,7 +90,7 @@ function ArticlesForm({
             required: "Enter an email address.",
             pattern: {
               value: email_regex,
-              message: "Email format invalid.",
+              message: "Invalid email format.",
             },
           })}
         />
