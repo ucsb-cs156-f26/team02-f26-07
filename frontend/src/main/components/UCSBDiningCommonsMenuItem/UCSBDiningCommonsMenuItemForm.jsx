@@ -29,8 +29,7 @@ function UCSBDiningCommonsMenuItemForm({
             id="id"
             type="text"
             {...register("id")}
-            value={initialContents.id}
-            disabled
+            readOnly
           />
         </Form.Group>
       )}
