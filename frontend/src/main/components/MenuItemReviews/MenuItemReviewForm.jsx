@@ -173,9 +173,9 @@ function MenuItemReviewForm({
           {errors.comments?.message}
         </Form.Control.Feedback>
       </Form.Group>
-      
+
       <Button type="submit" data-testid={testIdPrefix + "-submit"}>
-          {buttonLabel}
+        {buttonLabel}
       </Button>
       {/* <Button type="submit">{buttonLabel}</Button> */}
       <Button
