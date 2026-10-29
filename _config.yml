@@ -23,4 +23,4 @@ repo_name: "TBD"
 repo: ucsb-cs156-f26/team02-f26-07
 owner: ucsb-cs156-f26
 repo_name: team02-f26-07
-pull_requests: [{"author":{"id":"U_kgDOBnhj1Q","is_bot":false,"login":"anikaaac","name":""},"headRefName":"ac-UCSBOrganization-edit-page","number":103,"title":"Ac ucsb organization edit page","url":"https://github.com/ucsb-cs156-f26/team02-f26-07/pull/103"}]
+pull_requests: [{"author":{"id":"U_kgDOCvzEcA","is_bot":false,"login":"schaput314","name":""},"headRefName":"sc-edit-menuitemreview-page","number":116,"title":"sc - menuitemreview edits page, tests, and stories","url":"https://github.com/ucsb-cs156-f26/team02-f26-07/pull/116"}]
