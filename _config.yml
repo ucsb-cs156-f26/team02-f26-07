@@ -23,4 +23,4 @@ repo_name: "TBD"
 repo: ucsb-cs156-f26/team02-f26-07
 owner: ucsb-cs156-f26
 repo_name: team02-f26-07
-pull_requests: [{"author":{"id":"U_kgDOCvzEcA","is_bot":false,"login":"schaput314","name":""},"headRefName":"sc-menuitemreview-e2e-tests","number":124,"title":"Sc menuitemreview e2e tests","url":"https://github.com/ucsb-cs156-f26/team02-f26-07/pull/124"},{"author":{"id":"U_kgDOCvzEcA","is_bot":false,"login":"schaput314","name":""},"headRefName":"sc-menuitemreview-integration-tests","number":123,"title":"Sc menuitemreview integration tests","url":"https://github.com/ucsb-cs156-f26/team02-f26-07/pull/123"}]
+pull_requests: [{"author":{"id":"U_kgDOCvzEcA","is_bot":false,"login":"schaput314","name":""},"headRefName":"sc-menuitemreview-e2e-tests","number":124,"title":"Sc menuitemreview e2e tests","url":"https://github.com/ucsb-cs156-f26/team02-f26-07/pull/124"}]
