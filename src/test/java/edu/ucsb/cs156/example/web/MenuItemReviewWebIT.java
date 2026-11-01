@@ -54,10 +54,10 @@ public class MenuItemReviewWebIT extends WebTestCase {
 
     page.getByTestId("MenuItemReviewTable-cell-row-0-col-Edit-button").click();
     assertThat(page.getByText("Edit MenuItemReview")).isVisible();
-    page.getByTestId("MenuItemReviewForm-itemId").fill("123");
+    page.getByTestId("MenuItemReviewForm-itemId").fill("321");
     page.getByTestId("MenuItemReviewForm-submit").click();
 
-    assertThat(page.getByTestId("MenuItemReviewTable-cell-row-0-col-itemId")).hasText("123");
+    assertThat(page.getByTestId("MenuItemReviewTable-cell-row-0-col-itemId")).hasText("321");
 
     page.getByTestId("MenuItemReviewTable-cell-row-0-col-Delete-button").click();
 
