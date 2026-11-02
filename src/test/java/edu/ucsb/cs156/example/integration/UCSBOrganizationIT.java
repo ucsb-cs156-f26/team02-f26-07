@@ -17,7 +17,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
+// import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.context.annotation.Import;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
@@ -29,7 +29,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(webEnvironment = WebEnvironment.DEFINED_PORT)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
 @ActiveProfiles("integration")
 @Import(TestConfig.class)
@@ -73,12 +73,10 @@ public class UCSBOrganizationIT {
             .andExpect(status().isOk())
             .andReturn();
 
-    // assert: response body matches
     String expectedJson = mapper.writeValueAsString(expected);
     String responseString = response.getResponse().getContentAsString();
     assertEquals(expectedJson, responseString);
 
-    // assert: the row is really in the database (this is what makes it an integration test)
     UCSBOrganization saved = ucsbOrganizationRepository.findById("KRC").get();
     assertEquals(expected, saved);
   }
