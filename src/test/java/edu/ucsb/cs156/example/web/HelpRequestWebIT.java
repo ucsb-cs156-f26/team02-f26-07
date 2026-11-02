@@ -16,6 +16,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @ActiveProfiles("integration")
 @DirtiesContext(classMode = ClassMode.BEFORE_EACH_TEST_METHOD)
 public class HelpRequestWebIT extends WebTestCase {
+
   @Test
   public void admin_user_can_create_edit_delete_helprequest() throws Exception {
     setupUser(true);
@@ -30,7 +31,6 @@ public class HelpRequestWebIT extends WebTestCase {
     page.getByTestId("HelpRequestForm-tableOrBreakoutRoom").fill("7");
     page.getByTestId("HelpRequestForm-explanation").fill("Need help with Dokku");
     page.getByTestId("HelpRequestForm-submit").click();
-
     assertThat(page.getByTestId("HelpRequestTable-cell-row-0-col-explanation"))
         .hasText("Need help with Dokku");
 
