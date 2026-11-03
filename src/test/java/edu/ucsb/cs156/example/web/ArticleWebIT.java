@@ -57,7 +57,7 @@ public class ArticleWebIT extends WebTestCase {
 
     page.locator("a[href='/articles']").click();
 
-    assertThat(page.getByText("Articles")).isVisible();
+    assertThat(page.locator("h1")).hasText("Articles");
     assertThat(page.getByText("Create Article")).not().isVisible();
   }
 }
