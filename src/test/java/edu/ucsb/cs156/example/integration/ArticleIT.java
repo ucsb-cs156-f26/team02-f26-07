@@ -2,6 +2,7 @@ package edu.ucsb.cs156.example.integration;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -9,6 +10,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.ucsb.cs156.example.entities.Articles;
 import edu.ucsb.cs156.example.repositories.ArticlesRepository;
 import edu.ucsb.cs156.example.testconfig.TestConfig;
+import java.time.LocalDateTime;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,5 +65,32 @@ public class ArticleIT {
     assertEquals("https://example.com/article", saved.getUrl());
     assertEquals("JPA04 integration test", saved.getExplanation());
     assertEquals("test@example.com", saved.getEmail());
+  }
+
+  @WithMockUser(roles = {"USER"})
+  @Test
+  public void test_that_logged_in_user_can_get_by_id_when_the_id_exists() throws Exception {
+
+    // Arrange: save an article in the database
+    Articles article =
+        Articles.builder()
+            .url("https://example.com/article")
+            .explanation("JPA04 integration test")
+            .email("test@example.com")
+            .title("Test Article")
+            .dateAdded(LocalDateTime.of(2026, 11, 2, 12, 0))
+            .build();
+
+    Articles savedArticle = articleRepository.save(article);
+    MvcResult response =
+        mockMvc
+            .perform(get("/api/Articles").param("id", String.valueOf(savedArticle.getId())))
+            .andExpect(status().isOk())
+            .andReturn();
+
+    Articles returnedArticle =
+        mapper.readValue(response.getResponse().getContentAsString(), Articles.class);
+
+    assertEquals(savedArticle, returnedArticle);
   }
 }
